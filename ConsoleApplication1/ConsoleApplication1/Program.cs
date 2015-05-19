@@ -9,7 +9,7 @@ using System.Windows;
 namespace ConsoleApplication1
 {
     class Program
-    { const uint N=11;  //максимальное количество строк в выходном файле
+    { const uint N=11;  ///максимальное количество строк в выходном файле
       static char[] separator = {' ', ',', '.', ':', ';', '!', '?' }; //символы-разделители, которые необходимо учитывать при обработке текста
         static void Main(string[] args)                           
         {       
@@ -18,7 +18,7 @@ namespace ConsoleApplication1
            string InputFile = GetFileName("Входной файл: ", iFullFileName, ".txt", size:2000000);                 
 
            string dFullFileName = null;  //Имя существующего файла-словаря
-           string DictionaryFile = GetFileName("Файл словаря: ", dFullFileName, ".txt", strings_count:100000);          
+           string DictionaryFile = GetFileName("Файл словаря: ", dFullFileName, ".txt", strings_count: 100000);          
 
            string oFullFileName = null;  //Имя выходного html-файла
            string OutputFile = GetFileName("Выходной файл: ", oFullFileName, ".html");          
@@ -29,7 +29,14 @@ namespace ConsoleApplication1
            Console.ReadLine();
         }
 
-        //Получение от пользователя имени файла
+        /// <summary>
+        /// Получение от пользователя имени файла
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="var"></param>
+        /// <param name="extention"></param>
+        /// <returns></returns>
+
         static string GetFileName(string message, string var, string extention)
         {
             while (var == null)
@@ -46,7 +53,15 @@ namespace ConsoleApplication1
             return var;
         }
 
-        //Перегрузка метода GetFileName, содержит проверку существования и размера входного файла
+        /// <summary>
+        /// Перегрузка метода GetFileName, содержит проверку существования и размера входного файла
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="var"></param>
+        /// <param name="extention"></param>
+        /// <param name="size"></param>
+        /// <returns></returns>
+
         static string GetFileName(string message, string var, string extention, Int64 size)
         {
             
@@ -57,11 +72,8 @@ namespace ConsoleApplication1
 
                 if (!(var.EndsWith(extention)) || !(File.Exists(var)))
                 {
-                    var = null;
-                    //Console.Clear();
+                    var = null;                    
                     Console.WriteLine("Ошибка: выбранный файл не существует или имеет неподходящее расширение!");
-                    // throw new Exception("Не подходящее расширение файла!");
-
                 }
                 else
                 {
@@ -76,7 +88,14 @@ namespace ConsoleApplication1
             return var;   
         }
 
-        //Перегрузка метода GetFileName, содержит проверку существования входного файла и числа строк в нём
+        /// <summary>
+        /// Перегрузка метода GetFileName, содержит проверку существования и числа строк в нём
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="var"></param>
+        /// <param name="extention"></param>
+        /// <param name="size"></param>
+        /// <returns></returns>
         static string GetFileName(string message, string var, string extention, int strings_count)
         {
             while (var == null)
@@ -98,7 +117,13 @@ namespace ConsoleApplication1
             return var;
         }
 
-       //Чтение входного файла и запись выходного
+       /// <summary>
+       /// Чтение входного файла и запись выходного
+       /// </summary>
+       /// <param name="InputFileName"></param>
+       /// <param name="OutputFileName"></param>
+       /// <param name="DictionaryFileName"></param>
+
         static void FileReadingAndWriting(string InputFileName, string OutputFileName, string DictionaryFileName)
         { 
             //Входной поток, определяемый именем и кодировкой входного файла 
@@ -113,8 +138,13 @@ namespace ConsoleApplication1
 
               while ((input = sr.ReadLine()) != null)
                 {
-                    output = Selection(input, DictionaryFileLoading(DictionaryFileName));                  
-                    OutputFile.Write(output+"<br>");
+                    output = Selection(input, DictionaryFileLoading(DictionaryFileName));
+                    try { OutputFile.Write(output + "<br>"); }
+                    catch(System.InsufficientMemoryException e)
+                    { 
+                        Console.WriteLine(e+ " Недостаточно места на диске, запись прекращена на {0}-й строке!", n);
+                        break;
+                    }
                     n++;
                     if (n == N)   //при достижении в выходном выйле максимального числа строк
                     {
@@ -129,7 +159,12 @@ namespace ConsoleApplication1
              }
         }
 
-        //Загрузка файла-словаря в память
+        /// <summary>
+        /// Загрузка файла-словаря в память
+        /// </summary>
+        /// <param name="FileName"></param>
+        /// <returns></returns>
+
         static HashSet<string> DictionaryFileLoading(string FileName)
         {
             HashSet<string> DicSet = new HashSet<string>(); //используется множество строк (неупорядоченное)
@@ -144,7 +179,13 @@ namespace ConsoleApplication1
                 return DicSet;            
         }
 
-        //Нахождение в тексте входного файла слов из файла-словаря и их выделение
+        /// <summary>
+        /// Нахождение в тексте входного файла слов из файла-словаря и их выделение
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="Dictionary"></param>
+        /// <returns></returns>
+
         static string Selection(string input, HashSet<string> Dictionary)
         {
             string[] inputArray = input.Split(' ');

@@ -4,3 +4,9 @@ D:\FILES\Documents\УЧЁБА\СимбирСофт\C#\ConsoleApplication1\Consol
 D:\FILES\Documents\УЧЁБА\СимбирСофт\C#\ConsoleApplication1\ConsoleApplication1\obj\Release\ConsoleApplication1.csprojResolveAssemblyReference.cache
 D:\FILES\Documents\УЧЁБА\СимбирСофт\C#\ConsoleApplication1\ConsoleApplication1\obj\Release\ConsoleApplication1.exe
 D:\FILES\Documents\УЧЁБА\СимбирСофт\C#\ConsoleApplication1\ConsoleApplication1\obj\Release\ConsoleApplication1.pdb
+D:\FILES\Documents\УЧЁБА\СимбирСофт\C#\Homework\ConsoleApplication1\ConsoleApplication1\bin\Release\ConsoleApplication1.exe.config
+D:\FILES\Documents\УЧЁБА\СимбирСофт\C#\Homework\ConsoleApplication1\ConsoleApplication1\obj\Release\ConsoleApplication1.exe
+D:\FILES\Documents\УЧЁБА\СимбирСофт\C#\Homework\ConsoleApplication1\ConsoleApplication1\obj\Release\ConsoleApplication1.pdb
+D:\FILES\Documents\УЧЁБА\СимбирСофт\C#\Homework\ConsoleApplication1\ConsoleApplication1\bin\Release\ConsoleApplication1.exe
+D:\FILES\Documents\УЧЁБА\СимбирСофт\C#\Homework\ConsoleApplication1\ConsoleApplication1\bin\Release\ConsoleApplication1.pdb
+D:\FILES\Documents\УЧЁБА\СимбирСофт\C#\Homework\ConsoleApplication1\ConsoleApplication1\obj\Release\ConsoleApplication1.csprojResolveAssemblyReference.cache
