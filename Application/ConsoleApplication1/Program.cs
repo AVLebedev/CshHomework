@@ -139,12 +139,7 @@ namespace ConsoleApplication1
               while ((input = sr.ReadLine()) != null)
                 {
                     output = Selection(input, DictionaryFileLoading(DictionaryFileName));
-                    try { OutputFile.Write(output + "<br>"); }
-                    catch(System.InsufficientMemoryException e)
-                    { 
-                        Console.WriteLine(e+ " Недостаточно места на диске, запись прекращена на {0}-й строке!", n);
-                        break;
-                    }
+                    OutputFile.Write(output + "<br>"); 
                     n++;
                     if (n == N)   //при достижении в выходном выйле максимального числа строк
                     {
@@ -159,8 +154,9 @@ namespace ConsoleApplication1
              }
         }
 
+        /*
         /// <summary>
-        /// Загрузка файла-словаря в память
+        /// Загрузка файла-словаря в память с использованием HashSet
         /// </summary>
         /// <param name="FileName"></param>
         /// <returns></returns>
@@ -177,6 +173,34 @@ namespace ConsoleApplication1
                 }
             }
                 return DicSet;            
+        } */
+
+        /// <summary>
+        /// Загрузка файла-словаря в память с использованием класса Array
+        /// </summary>
+        /// <param name="FileName"></param>
+        /// <returns></returns>
+
+        static string[] DictionaryFileLoading(string FileName)
+        {  
+            string[] DicSet = new string[1]; //используется массив строк, изначально выделена память под 1 элемент
+            
+            using (StreamReader dicFile = new StreamReader(FileName, Encoding.GetEncoding(1251)))
+            {                
+                string input = null;
+                int i = 0;
+                
+                while ((input = dicFile.ReadLine()) != null)
+                {
+                    
+                        DicSet[i] = input;
+                        i++;
+                        Array.Resize<string>(ref DicSet, i + 1); //расширяем массив
+                    
+                }
+                Array.Resize<string>(ref DicSet, i); //уменьшаем массив на 1 элемент, т.к. ему было приравнено значение null
+            }
+            return DicSet;
         }
 
         /// <summary>
@@ -186,7 +210,8 @@ namespace ConsoleApplication1
         /// <param name="Dictionary"></param>
         /// <returns></returns>
 
-        static string Selection(string input, HashSet<string> Dictionary)
+        //static string Selection(string input, HashSet<string> Dictionary)
+        static string Selection(string input, string[] Dictionary)
         {
             string[] inputArray = input.Split(' ');
             string output = null;
