@@ -176,29 +176,23 @@ namespace ConsoleApplication1
         } */
 
         /// <summary>
-        /// Загрузка файла-словаря в память с использованием класса Array
+        /// Загрузка файла-словаря в память с использованием класса List
         /// </summary>
         /// <param name="FileName"></param>
         /// <returns></returns>
 
-        static string[] DictionaryFileLoading(string FileName)
+        static List<string> DictionaryFileLoading(string FileName)
         {  
-            string[] DicSet = new string[1]; //используется массив строк, изначально выделена память под 1 элемент
+            List<string> DicSet = new List<string>(); //используется список (класс List)
             
             using (StreamReader dicFile = new StreamReader(FileName, Encoding.GetEncoding(1251)))
             {                
-                string input = null;
-                int i = 0;
+                string input = null;               
                 
                 while ((input = dicFile.ReadLine()) != null)
                 {
-                    
-                        DicSet[i] = input;
-                        i++;
-                        Array.Resize<string>(ref DicSet, i + 1); //расширяем массив
-                    
-                }
-                Array.Resize<string>(ref DicSet, i); //уменьшаем массив на 1 элемент, т.к. ему было приравнено значение null
+                    DicSet.Add(input.Trim(' '));                    
+                }                
             }
             return DicSet;
         }
@@ -211,7 +205,7 @@ namespace ConsoleApplication1
         /// <returns></returns>
 
         //static string Selection(string input, HashSet<string> Dictionary)
-        static string Selection(string input, string[] Dictionary)
+        static string Selection(string input, List<string> Dictionary)
         {
             string[] inputArray = input.Split(' ');
             string output = null;
