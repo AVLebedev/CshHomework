@@ -1,18 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using System.Windows;
+using System.Diagnostics;
 
 namespace ConsoleApplication1
 {
     class Program
     { const uint N=11;  ///максимальное количество строк в выходном файле
       static char[] separator = {' ', ',', '.', ':', ';', '!', '?' }; //символы-разделители, которые необходимо учитывать при обработке текста
-        static void Main(string[] args)                           
-        {       
+        static void Main(string[] args)
+      {
+          Stopwatch time = new Stopwatch();   //Измеряет время обработки
  
            string iFullFileName = null;  //Имя входного файла с текстом
            string InputFile = GetFileName("Входной файл: ", iFullFileName, ".txt", size:2000000);                 
@@ -21,12 +24,21 @@ namespace ConsoleApplication1
            string DictionaryFile = GetFileName("Файл словаря: ", dFullFileName, ".txt", strings_count: 100000);          
 
            string oFullFileName = null;  //Имя выходного html-файла
-           string OutputFile = GetFileName("Выходной файл: ", oFullFileName, ".html");          
-            
-           FileReadingAndWriting(InputFile, OutputFile, DictionaryFile);
+           string OutputFile = GetFileName("Выходной файл: ", oFullFileName, ".html");
 
+           Console.WriteLine();
+
+           time.Start();
+           FileReadingAndWriting(InputFile, OutputFile, DictionaryFile);
+           time.Stop();
+         
+           Console.WriteLine("Обработано за {0} миллисекунд", time.ElapsedMilliseconds.ToString());
+
+           Console.WriteLine();
            Console.Write("Всё! Для продолжения нажмите <Enter>");
            Console.ReadLine();
+
+
         }
 
         /// <summary>
@@ -181,9 +193,9 @@ namespace ConsoleApplication1
         /// <param name="FileName"></param>
         /// <returns></returns>
 
-        static List<string> DictionaryFileLoading(string FileName)
+        static ArrayList DictionaryFileLoading(string FileName)
         {  
-            List<string> DicSet = new List<string>(); //используется список (класс List)
+            ArrayList DicSet = new ArrayList(); //используется список (класс List)
             
             using (StreamReader dicFile = new StreamReader(FileName, Encoding.GetEncoding(1251)))
             {                
@@ -192,7 +204,8 @@ namespace ConsoleApplication1
                 while ((input = dicFile.ReadLine()) != null)
                 {
                     DicSet.Add(input.Trim(' '));                    
-                }                
+                }
+                DicSet.Sort();               
             }
             return DicSet;
         }
@@ -205,7 +218,7 @@ namespace ConsoleApplication1
         /// <returns></returns>
 
         //static string Selection(string input, HashSet<string> Dictionary)
-        static string Selection(string input, List<string> Dictionary)
+        static string Selection(string input, ArrayList Dictionary)
         {
             string[] inputArray = input.Split(' ');
             string output = null;
