@@ -11,7 +11,7 @@ using System.Diagnostics;
 namespace ConsoleApplication1
 {
     class Program
-    { const uint N=11;  ///максимальное количество строк в выходном файле
+    { const uint N=100;  ///максимальное количество строк в выходном файле
       static char[] separator = {' ', ',', '.', ':', ';', '!', '?' }; //символы-разделители, которые необходимо учитывать при обработке текста
         static void Main(string[] args)
       {
@@ -188,24 +188,29 @@ namespace ConsoleApplication1
         } */
 
         /// <summary>
-        /// Загрузка файла-словаря в память с использованием класса List
+        /// Загрузка файла-словаря в память с использованием класса Dictionary
         /// </summary>
         /// <param name="FileName"></param>
         /// <returns></returns>
 
-        static ArrayList DictionaryFileLoading(string FileName)
+        static Dictionary<int, string> DictionaryFileLoading(string FileName)
         {  
-            ArrayList DicSet = new ArrayList(); //используется список (класс List)
+            Dictionary<int, string> DicSet = new Dictionary<int, string>(); //используется словарь (класс Dictionary)
             
             using (StreamReader dicFile = new StreamReader(FileName, Encoding.GetEncoding(1251)))
             {                
-                string input = null;               
-                
+                string input = null;
+                int i = 0;
                 while ((input = dicFile.ReadLine()) != null)
                 {
-                    DicSet.Add(input.Trim(' '));                    
+                    if (!(DicSet.ContainsValue(input)))
+                    {
+                        DicSet.Add(i, input.Trim(' ').ToLower());
+                        i++;
+                    }    
+                    
                 }
-                DicSet.Sort();               
+                             
             }
             return DicSet;
         }
@@ -218,19 +223,19 @@ namespace ConsoleApplication1
         /// <returns></returns>
 
         //static string Selection(string input, HashSet<string> Dictionary)
-        static string Selection(string input, ArrayList Dictionary)
+        static string Selection(string input, Dictionary<int, string> Dictionary)
         {
             string[] inputArray = input.Split(' ');
             string output = null;
 
              for(int i=0; i<inputArray.Length; i++)
-                {
-                    if (Dictionary.BinarySearch(inputArray[i].ToLower().TrimEnd(separator)) >=0)  //бинарный поиск слова из текста в словаре
+                {                
+                    if (Dictionary.ContainsValue(inputArray[i].ToLower().TrimEnd(separator)))  //поиск в словаре по значению
                     {
                         inputArray[i] = "<b><em>" + inputArray[i] + "</em></b>"; //добавление html-тегов разметки к найденным словам                       
                     }
-                }
-            
+                 }
+                            
             foreach (string b in inputArray)
             {
                 output += b + ' ';
