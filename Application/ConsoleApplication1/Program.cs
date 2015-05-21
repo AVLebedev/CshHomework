@@ -188,14 +188,14 @@ namespace ConsoleApplication1
         } */
 
         /// <summary>
-        /// Загрузка файла-словаря в память с использованием класса Dictionary
+        /// Загрузка файла-словаря в память с использованием класса Hashtable
         /// </summary>
         /// <param name="FileName"></param>
         /// <returns></returns>
 
-        static Dictionary<int, string> DictionaryFileLoading(string FileName)
+        static Hashtable DictionaryFileLoading(string FileName)
         {  
-            Dictionary<int, string> DicSet = new Dictionary<int, string>(); //используется словарь (класс Dictionary)
+            Hashtable DicSet = new Hashtable(); //используется хэш-таблица (класс Hashtable)
             
             using (StreamReader dicFile = new StreamReader(FileName, Encoding.GetEncoding(1251)))
             {                
@@ -223,14 +223,14 @@ namespace ConsoleApplication1
         /// <returns></returns>
 
         //static string Selection(string input, HashSet<string> Dictionary)
-        static string Selection(string input, Dictionary<int, string> Dictionary)
+        static string Selection(string input, Hashtable Dictionary)
         {
             string[] inputArray = input.Split(' ');
             string output = null;
 
              for(int i=0; i<inputArray.Length; i++)
                 {                
-                    if (Dictionary.ContainsValue(inputArray[i].ToLower().TrimEnd(separator)))  //поиск в словаре по значению
+                    if (Dictionary.ContainsValue(inputArray[i].ToLower().TrimEnd(separator)))  //поиск в хэш-таблице по значению
                     {
                         inputArray[i] = "<b><em>" + inputArray[i] + "</em></b>"; //добавление html-тегов разметки к найденным словам                       
                     }
