@@ -223,16 +223,14 @@ namespace ConsoleApplication1
             string[] inputArray = input.Split(' ');
             string output = null;
 
-            foreach (string a in Dictionary)
-            {
-                for(int i=0; i<inputArray.Length; i++)
+             for(int i=0; i<inputArray.Length; i++)
                 {
-                    if (inputArray[i].ToLower().TrimEnd(separator) == a.ToLower())  //сравнение слов с учётом регистра
+                    if (Dictionary.BinarySearch(inputArray[i].ToLower().TrimEnd(separator)) >=0)  //бинарный поиск слова из текста в словаре
                     {
                         inputArray[i] = "<b><em>" + inputArray[i] + "</em></b>"; //добавление html-тегов разметки к найденным словам                       
                     }
                 }
-            }
+            
             foreach (string b in inputArray)
             {
                 output += b + ' ';
