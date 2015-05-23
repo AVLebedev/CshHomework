@@ -189,24 +189,26 @@ namespace ConsoleApplication1
         } */
 
         /// <summary>
-        /// Загрузка файла-словаря в память с использованием класса ConcurrentStack<T>
+        /// Загрузка файла-словаря в память с использованием класса ConcurrentDictionary
         /// </summary>
         /// <param name="FileName"></param>
         /// <returns></returns>
 
-        static ConcurrentStack<string> DictionaryFileLoading(string FileName)
+        static ConcurrentDictionary<int, string> DictionaryFileLoading(string FileName)
         {  
-            ConcurrentStack<string> DicSet = new ConcurrentStack<string>(); //используется потокобезопасный стек (класс ConcurrentStack<T>)
+            ConcurrentDictionary<int, string> DicSet = new ConcurrentDictionary<int,string>(); //используется потокобезопасный стек (класс ConcurrentStack<TKey, TValue>)
             
             using (StreamReader dicFile = new StreamReader(FileName, Encoding.GetEncoding(1251)))
             {                
                 string input = null;
+                int i = 0;
                 
                 while ((input = dicFile.ReadLine()) != null)
                 {
-                    if (!(DicSet.Contains(input)))
+                    if (!(DicSet.Values.Contains(input)))
                     {
-                        DicSet.Push(input.Trim(' ').ToLower());                       
+                        DicSet.TryAdd(i, input.Trim(' ').ToLower());
+                        i++;
                     }    
                     
                 }
@@ -223,14 +225,14 @@ namespace ConsoleApplication1
         /// <returns></returns>
 
         //static string Selection(string input, HashSet<string> Dictionary)
-        static string Selection(string input, ConcurrentStack<string> Dictionary)
+        static string Selection(string input, ConcurrentDictionary<int,string> Dictionary)
         {
             string[] inputArray = input.Split(' ');
             string output = null;
 
              for(int i=0; i<inputArray.Length; i++)
                 {                
-                    if (Dictionary.Contains(inputArray[i].ToLower().TrimEnd(separator)))  //поиск слов в контейнере
+                    if (Dictionary.Values.Contains(inputArray[i].ToLower().TrimEnd(separator)))  //поиск слов в контейнере
                     {
                         inputArray[i] = "<b><em>" + inputArray[i] + "</em></b>"; //добавление html-тегов разметки к найденным словам                       
                     }
