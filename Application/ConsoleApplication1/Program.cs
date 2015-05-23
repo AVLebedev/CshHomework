@@ -189,14 +189,14 @@ namespace ConsoleApplication1
         } */
 
         /// <summary>
-        /// Загрузка файла-словаря в память с использованием класса ConcurrentQueue<T>
+        /// Загрузка файла-словаря в память с использованием класса ConcurrentStack<T>
         /// </summary>
         /// <param name="FileName"></param>
         /// <returns></returns>
 
-        static ConcurrentQueue<string> DictionaryFileLoading(string FileName)
+        static ConcurrentStack<string> DictionaryFileLoading(string FileName)
         {  
-            ConcurrentQueue<string> DicSet = new ConcurrentQueue<string>(); //используется потокобезопасная очередь (класс ConcurrentQueue<T>)
+            ConcurrentStack<string> DicSet = new ConcurrentStack<string>(); //используется потокобезопасный стек (класс ConcurrentStack<T>)
             
             using (StreamReader dicFile = new StreamReader(FileName, Encoding.GetEncoding(1251)))
             {                
@@ -206,7 +206,7 @@ namespace ConsoleApplication1
                 {
                     if (!(DicSet.Contains(input)))
                     {
-                        DicSet.Enqueue(input.Trim(' ').ToLower());                       
+                        DicSet.Push(input.Trim(' ').ToLower());                       
                     }    
                     
                 }
@@ -223,7 +223,7 @@ namespace ConsoleApplication1
         /// <returns></returns>
 
         //static string Selection(string input, HashSet<string> Dictionary)
-        static string Selection(string input, ConcurrentQueue<string> Dictionary)
+        static string Selection(string input, ConcurrentStack<string> Dictionary)
         {
             string[] inputArray = input.Split(' ');
             string output = null;
