@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Windows;
 using System.Diagnostics;
+using System.Collections.Concurrent;
 
 namespace ConsoleApplication1
 {
@@ -188,14 +189,14 @@ namespace ConsoleApplication1
         } */
 
         /// <summary>
-        /// Загрузка файла-словаря в память с использованием класса Queue
+        /// Загрузка файла-словаря в память с использованием класса ConcurrentQueue<T>
         /// </summary>
         /// <param name="FileName"></param>
         /// <returns></returns>
 
-        static Queue DictionaryFileLoading(string FileName)
+        static ConcurrentQueue<string> DictionaryFileLoading(string FileName)
         {  
-            Queue DicSet = new Queue(); //используется очередь (класс Queue)
+            ConcurrentQueue<string> DicSet = new ConcurrentQueue<string>(); //используется потокобезопасная очередь (класс ConcurrentQueue<T>)
             
             using (StreamReader dicFile = new StreamReader(FileName, Encoding.GetEncoding(1251)))
             {                
@@ -222,7 +223,7 @@ namespace ConsoleApplication1
         /// <returns></returns>
 
         //static string Selection(string input, HashSet<string> Dictionary)
-        static string Selection(string input, Queue Dictionary)
+        static string Selection(string input, ConcurrentQueue<string> Dictionary)
         {
             string[] inputArray = input.Split(' ');
             string output = null;
