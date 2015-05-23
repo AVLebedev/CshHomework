@@ -188,25 +188,24 @@ namespace ConsoleApplication1
         } */
 
         /// <summary>
-        /// Загрузка файла-словаря в память с использованием класса Hashtable
+        /// Загрузка файла-словаря в память с использованием класса Stack
         /// </summary>
         /// <param name="FileName"></param>
         /// <returns></returns>
 
-        static Hashtable DictionaryFileLoading(string FileName)
+        static Stack DictionaryFileLoading(string FileName)
         {  
-            Hashtable DicSet = new Hashtable(); //используется хэш-таблица (класс Hashtable)
+            Stack DicSet = new Stack(); //используется стек
             
             using (StreamReader dicFile = new StreamReader(FileName, Encoding.GetEncoding(1251)))
             {                
                 string input = null;
-                int i = 0;
+                
                 while ((input = dicFile.ReadLine()) != null)
                 {
-                    if (!(DicSet.ContainsValue(input)))
+                    if (!(DicSet.Contains(input)))
                     {
-                        DicSet.Add(i, input.Trim(' ').ToLower());
-                        i++;
+                        DicSet.Push(input.Trim(' ').ToLower());                       
                     }    
                     
                 }
@@ -223,14 +222,14 @@ namespace ConsoleApplication1
         /// <returns></returns>
 
         //static string Selection(string input, HashSet<string> Dictionary)
-        static string Selection(string input, Hashtable Dictionary)
+        static string Selection(string input, Stack Dictionary)
         {
             string[] inputArray = input.Split(' ');
             string output = null;
 
              for(int i=0; i<inputArray.Length; i++)
                 {                
-                    if (Dictionary.ContainsValue(inputArray[i].ToLower().TrimEnd(separator)))  //поиск в хэш-таблице по значению
+                    if (Dictionary.Contains(inputArray[i].ToLower().TrimEnd(separator)))  //поиск в хэш-таблице по значению
                     {
                         inputArray[i] = "<b><em>" + inputArray[i] + "</em></b>"; //добавление html-тегов разметки к найденным словам                       
                     }
