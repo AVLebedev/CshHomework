@@ -188,14 +188,14 @@ namespace ConsoleApplication1
         } */
 
         /// <summary>
-        /// Загрузка файла-словаря в память с использованием класса Stack
+        /// Загрузка файла-словаря в память с использованием класса Queue
         /// </summary>
         /// <param name="FileName"></param>
         /// <returns></returns>
 
-        static Stack DictionaryFileLoading(string FileName)
+        static Queue DictionaryFileLoading(string FileName)
         {  
-            Stack DicSet = new Stack(); //используется стек
+            Queue DicSet = new Queue(); //используется очередь (класс Queue)
             
             using (StreamReader dicFile = new StreamReader(FileName, Encoding.GetEncoding(1251)))
             {                
@@ -205,7 +205,7 @@ namespace ConsoleApplication1
                 {
                     if (!(DicSet.Contains(input)))
                     {
-                        DicSet.Push(input.Trim(' ').ToLower());                       
+                        DicSet.Enqueue(input.Trim(' ').ToLower());                       
                     }    
                     
                 }
@@ -222,14 +222,14 @@ namespace ConsoleApplication1
         /// <returns></returns>
 
         //static string Selection(string input, HashSet<string> Dictionary)
-        static string Selection(string input, Stack Dictionary)
+        static string Selection(string input, Queue Dictionary)
         {
             string[] inputArray = input.Split(' ');
             string output = null;
 
              for(int i=0; i<inputArray.Length; i++)
                 {                
-                    if (Dictionary.Contains(inputArray[i].ToLower().TrimEnd(separator)))  //поиск в хэш-таблице по значению
+                    if (Dictionary.Contains(inputArray[i].ToLower().TrimEnd(separator)))  //поиск слов в контейнере
                     {
                         inputArray[i] = "<b><em>" + inputArray[i] + "</em></b>"; //добавление html-тегов разметки к найденным словам                       
                     }
