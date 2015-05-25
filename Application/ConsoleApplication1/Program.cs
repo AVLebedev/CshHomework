@@ -167,7 +167,7 @@ namespace ConsoleApplication1
              }
         }
 
-        /*
+        
         /// <summary>
         /// Загрузка файла-словаря в память с использованием HashSet
         /// </summary>
@@ -182,38 +182,11 @@ namespace ConsoleApplication1
                 string input = null;
                 while ((input = dicFile.ReadLine()) != null)
                 {                   
-                    DicSet.Add(input.Trim(' '));
+                    DicSet.Add(input.Trim(' ').ToLower());
                 }
             }
                 return DicSet;            
-        } */
-
-        /// <summary>
-        /// Загрузка файла-словаря в память с использованием класса ConcurrentBag
-        /// </summary>
-        /// <param name="FileName"></param>
-        /// <returns></returns>
-
-        static ConcurrentBag<string> DictionaryFileLoading(string FileName)
-        {  
-            ConcurrentBag<string> DicSet = new ConcurrentBag<string>(); //используется класс ConcurrentBag<string>)
-            
-            using (StreamReader dicFile = new StreamReader(FileName, Encoding.GetEncoding(1251)))
-            {                
-                string input = null;                
-                
-                while ((input = dicFile.ReadLine()) != null)
-                {
-                    if (!(DicSet.Contains(input)))
-                    {
-                        DicSet.Add(input.Trim(' ').ToLower());
-                    }    
-                    
-                }
-                             
-            }
-            return DicSet;
-        }
+        } 
 
         /// <summary>
         /// Нахождение в тексте входного файла слов из файла-словаря и их выделение
@@ -222,8 +195,8 @@ namespace ConsoleApplication1
         /// <param name="Dictionary"></param>
         /// <returns></returns>
 
-        //static string Selection(string input, HashSet<string> Dictionary)
-        static string Selection(string input, ConcurrentBag<string> Dictionary)
+        static string Selection(string input, HashSet<string> Dictionary)
+       
         {
             string[] inputArray = input.Split(' ');
             string output = null;
