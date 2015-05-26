@@ -1,3 +1,0 @@
-First string
-2nd string
-3 string

@@ -4,3 +4,6 @@ D:\FILES\Documents\УЧЁБА\СимбирСофт\C#\ConsoleApplication1\Consol
 D:\FILES\Documents\УЧЁБА\СимбирСофт\C#\ConsoleApplication1\ConsoleApplication1\bin\Debug\ConsoleApplication1.pdb
 D:\FILES\Documents\УЧЁБА\СимбирСофт\C#\ConsoleApplication1\ConsoleApplication1\obj\Debug\ConsoleApplication1.exe
 D:\FILES\Documents\УЧЁБА\СимбирСофт\C#\ConsoleApplication1\ConsoleApplication1\obj\Debug\ConsoleApplication1.pdb
+D:\FILES\Documents\УЧЁБА\СимбирСофт\C#\Homework\Application\ConsoleApplication1\bin\Debug\ConsoleApplication1.exe.config
+D:\FILES\Documents\УЧЁБА\СимбирСофт\C#\Homework\Application\ConsoleApplication1\obj\Debug\ConsoleApplication1.exe
+D:\FILES\Documents\УЧЁБА\СимбирСофт\C#\Homework\Application\ConsoleApplication1\obj\Debug\ConsoleApplication1.pdb
