@@ -1,0 +1,9 @@
+D:\FILES\Documents\УЧЁБА\СимбирСофт\C#\Homework\Application\ProgramTests\bin\Debug\ProgramTests.dll
+D:\FILES\Documents\УЧЁБА\СимбирСофт\C#\Homework\Application\ProgramTests\bin\Debug\ProgramTests.pdb
+D:\FILES\Documents\УЧЁБА\СимбирСофт\C#\Homework\Application\ProgramTests\bin\Debug\ConsoleApplication1.exe
+D:\FILES\Documents\УЧЁБА\СимбирСофт\C#\Homework\Application\ProgramTests\bin\Debug\nunit.framework.dll
+D:\FILES\Documents\УЧЁБА\СимбирСофт\C#\Homework\Application\ProgramTests\bin\Debug\ConsoleApplication1.pdb
+D:\FILES\Documents\УЧЁБА\СимбирСофт\C#\Homework\Application\ProgramTests\bin\Debug\nunit.framework.xml
+D:\FILES\Documents\УЧЁБА\СимбирСофт\C#\Homework\Application\ProgramTests\obj\Debug\ProgramTests.csprojResolveAssemblyReference.cache
+D:\FILES\Documents\УЧЁБА\СимбирСофт\C#\Homework\Application\ProgramTests\obj\Debug\ProgramTests.dll
+D:\FILES\Documents\УЧЁБА\СимбирСофт\C#\Homework\Application\ProgramTests\obj\Debug\ProgramTests.pdb

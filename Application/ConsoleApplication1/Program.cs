@@ -11,7 +11,7 @@ using System.Collections.Concurrent;
 
 namespace ConsoleApplication1
 {
-    class Program
+   public class Program
     { const uint N=100;  ///максимальное количество строк в выходном файле
       static char[] separator = {' ', ',', '.', ':', ';', '!', '?' }; //символы-разделители, которые необходимо учитывать при обработке текста
         static void Main(string[] args)
@@ -50,7 +50,7 @@ namespace ConsoleApplication1
         /// <param name="extention"></param>
         /// <returns></returns>
 
-        static string GetFileName(string message, string var, string extention)
+        public static string GetFileName(string message, string var, string extention)
         {
             while (var == null)
             {

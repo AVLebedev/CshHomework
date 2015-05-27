@@ -11,8 +11,8 @@ namespace ProgramTests
     {
         [Test]
         public void Test1()
-        { 
-
+        {
+            Assert.That(ConsoleApplication1.Program.GetFileName("Some message", "another file.txt", ".html"), Is.EqualTo("another file.txt"));
         }
     }
 }
