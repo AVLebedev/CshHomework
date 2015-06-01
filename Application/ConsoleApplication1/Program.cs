@@ -11,119 +11,7 @@ using System.Collections.Concurrent;
 
 namespace ConsoleApplication1
 {
-    /// <summary>
-    /// Интерфейс для реализации приёма входных данных от пользователя
-    /// </summary>
-    interface IFileName
-    {
-        string GetFileName(string message, string extention);
-    }
-
-    interface IInputFileName
-    {
-        string GetFileName(string message, string extention, int restriction);
-    }
-
-    /// <summary>
-    /// Класс, принимающий от пользователя входные данные
-    /// </summary>
-
-    public class FileName : IFileName //IInputFileName
-    {
-        /// <summary>
-        /// Ограничение, накладываемое на входной файл
-        /// </summary>
-        /// <param name="restriction"></param>
-        ushort sizeRestriction = 0;
-        uint strCountRestriction = 0;
-
-        public FileName() { }
-
-        public FileName(ushort sizeRestriction)
-        {
-            this.sizeRestriction = sizeRestriction;
-        }
-
-        /// <summary>
-        /// strCountResrtiction - ограничение на число строк во входном файле
-        /// </summary>
-        /// <param name="strCountRestriction"></param>
-        public FileName(uint strCountRestriction)
-        {
-            this.strCountRestriction = strCountRestriction;
-        }
    
-        /// <summary>
-        /// Получение имени (каталога) выходного файла
-        /// </summary>
-        /// <param name="message"></param>
-        /// <param name="extention"></param>
-        /// <returns></returns>
-        public string GetFileName(string message, string extention)
-        {
-            string file = null;
-
-            while (file == null)
-            {
-                Console.Write(message);   //Сообщение, которое выводится при запросе имени файла
-                try
-                {
-                    file = Console.ReadLine(); //Имя файла
-                    FileInfo validator = new FileInfo(file);
-                    if (!(validator.Directory.Exists)) throw new System.IO.DirectoryNotFoundException("Директория не найдена!");
-                    if (!(file.EndsWith(extention))) throw new System.Exception("Неверно выбрано раcширение файла!");                    
-
-                }
-                catch (System.IO.DirectoryNotFoundException e)
-                {
-                    Console.WriteLine(e.Message);
-                    file = null;
-                    continue;
-                }
-
-                catch (System.Exception)
-                {
-                    file += extention;                  
-                }
-            }
-
-            return file;
-        }
-
-        /// <summary>
-        /// Получение имени (каталога) входного файла
-        /// </summary>
-        /// <param name="message"></param>
-        /// <param name="extention"></param>
-        /// <returns></returns>
-        public string GetInputFileName(string message, string extention)
-        {
-            string fileName = null;
-
-            while (fileName == null)
-            {
-                Console.Write(message);   //Сообщение, которое выводится при запросе имени файла
-                fileName = Console.ReadLine(); //Имя файла
-
-                if (!(fileName.EndsWith(extention)) || !(File.Exists(fileName)))
-                {
-                    fileName = null;
-                    Console.WriteLine("Ошибка: выбранный файл не существует или имеет неподходящее расширение!");
-                }
-                else
-                {
-                    FileInfo file = new FileInfo(fileName);
-                    if (file.Length > sizeRestriction)
-                    {
-                        fileName = null;
-                        Console.WriteLine("Ошибка: размер файла слишком велик!");
-                    }
-                }
-            }
-            return fileName;   
-        }
-    }
-
     /// <summary>
     /// Класс-заглушка, используется для тестов
     /// </summary>
@@ -160,17 +48,16 @@ namespace ConsoleApplication1
       static char[] separator = {' ', ',', '.', ':', ';', '!', '?' }; //символы-разделители, которые необходимо учитывать при обработке текста
         static void Main(string[] args)
       {
-          Stopwatch time = new Stopwatch();   //Измеряет время обработки
-          FileName fileName = new FileName(); //Объект для получения входных данных от пользователя
- 
-           string iFullFileName = null;  //Имя входного файла с текстом
-           string InputFile = GetFileName("Входной файл: ", iFullFileName, ".txt", size:2000000);                 
+          Stopwatch time = new Stopwatch();   //Измеряет время обработки         
 
-           string dFullFileName = null;  //Имя существующего файла-словаря
-           string DictionaryFile = GetFileName("Файл словаря: ", dFullFileName, ".txt", strings_count: 100000);          
+           InputFileName inFile = new InputFileName(20000);
+           string InputFile = inFile.GetFileName("Входной файл: ", ".txt");
 
-           //string oFullFileName = null;  //Имя выходного html-файла
-           string OutputFile = fileName.GetFileName("Выходной файл: ", ".html");
+           DictionaryFileName dicFile = new DictionaryFileName(100000);
+           string DictionaryFile = dicFile.GetFileName("Файл словаря: ", ".txt");
+
+           OutputFileName outFile = new OutputFileName();
+           string OutputFile = outFile.GetFileName("Выходной файл: ", ".html");
 
            Console.WriteLine();
 
@@ -184,105 +71,7 @@ namespace ConsoleApplication1
            Console.Write("Всё! Для продолжения нажмите <Enter>");
            Console.ReadLine();
 
-        }
-
-        
-
-        /// <summary>
-        /// Получение от пользователя имени файла
-        /// </summary>
-        /// <param name="message"></param>
-        /// <param name="var"></param>
-        /// <param name="extention"></param>
-        /// <returns></returns>
-
-      /*  public static string GetFileName(string message, string extention)
-        {
-            string file = null;
-           
-                Console.Write(message);   //Сообщение, которое выводится при запросе имени файла
-                try
-                {
-                    file = Console.ReadLine(); //Имя файла                   
-                    if (!(file.EndsWith(extention))) throw new System.Exception("Неверно выбрано раcширение файла!");
-                }
-               // catch (System.IO.DirectoryNotFoundException)
-                //{
-
-               // }
-
-                catch (System.Exception)
-                {
-                    file += extention;
-                    //Console.WriteLine(e.Message);                    
-                }          
-            
-            return file;
-        } */
-
-        /// <summary>
-        /// Перегрузка метода GetFileName, содержит проверку существования и размера входного файла
-        /// </summary>
-        /// <param name="message"></param>
-        /// <param name="var"></param>
-        /// <param name="extention"></param>
-        /// <param name="size"></param>
-        /// <returns></returns>
-
-        static string GetFileName(string message, string var, string extention, Int64 size)
-        {
-            
-            while (var == null)
-            {
-                Console.Write(message);   //Сообщение, которое выводится при запросе имени файла
-                var = Console.ReadLine(); //Имя файла
-
-                if (!(var.EndsWith(extention)) || !(File.Exists(var)))
-                {
-                    var = null;                    
-                    Console.WriteLine("Ошибка: выбранный файл не существует или имеет неподходящее расширение!");
-                }
-                else
-                {
-                    FileInfo file = new FileInfo(var);
-                    if (file.Length > size)
-                    {
-                        var = null;
-                        Console.WriteLine("Ошибка: размер файла слишком велик!");
-                    }
-                }
-            }
-            return var;   
-        }
-
-        /// <summary>
-        /// Перегрузка метода GetFileName, содержит проверку существования и числа строк в нём
-        /// </summary>
-        /// <param name="message"></param>
-        /// <param name="var"></param>
-        /// <param name="extention"></param>
-        /// <param name="size"></param>
-        /// <returns></returns>
-        static string GetFileName(string message, string var, string extention, int strings_count)
-        {
-            while (var == null)
-            {
-                Console.Write(message);   //Сообщение, которое выводится при запросе имени файла
-                var = Console.ReadLine(); //Имя файла
-
-                if (!(var.EndsWith(extention)) || !(File.Exists(var)))
-                {
-                    var = null;
-                    Console.WriteLine("Ошибка: выбранный файл не существует или имеет неподходящее расширение!");
-                }
-                else if (File.ReadAllLines(var).Length > strings_count)
-                {
-                    var = null;
-                    Console.WriteLine("Ошибка: количество строк в файле превышает максимальное ({0})!", strings_count);
-                }
-            }
-            return var;
-        }
+        }       
 
        /// <summary>
        /// Чтение входного файла и запись выходного
