@@ -11,12 +11,157 @@ using System.Collections.Concurrent;
 
 namespace ConsoleApplication1
 {
+    /// <summary>
+    /// Интерфейс для реализации приёма входных данных от пользователя
+    /// </summary>
+    interface IFileName
+    {
+        string GetFileName(string message, string extention);
+    }
+
+    interface IInputFileName
+    {
+        string GetFileName(string message, string extention, int restriction);
+    }
+
+    /// <summary>
+    /// Класс, принимающий от пользователя входные данные
+    /// </summary>
+
+    public class FileName : IFileName //IInputFileName
+    {
+        /// <summary>
+        /// Ограничение, накладываемое на входной файл
+        /// </summary>
+        /// <param name="restriction"></param>
+        ushort sizeRestriction = 0;
+        uint strCountRestriction = 0;
+
+        public FileName() { }
+
+        public FileName(ushort sizeRestriction)
+        {
+            this.sizeRestriction = sizeRestriction;
+        }
+
+        /// <summary>
+        /// strCountResrtiction - ограничение на число строк во входном файле
+        /// </summary>
+        /// <param name="strCountRestriction"></param>
+        public FileName(uint strCountRestriction)
+        {
+            this.strCountRestriction = strCountRestriction;
+        }
+   
+        /// <summary>
+        /// Получение имени (каталога) выходного файла
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="extention"></param>
+        /// <returns></returns>
+        public string GetFileName(string message, string extention)
+        {
+            string file = null;
+
+            while (file == null)
+            {
+                Console.Write(message);   //Сообщение, которое выводится при запросе имени файла
+                try
+                {
+                    file = Console.ReadLine(); //Имя файла
+                    FileInfo validator = new FileInfo(file);
+                    if (!(validator.Directory.Exists)) throw new System.IO.DirectoryNotFoundException("Директория не найдена!");
+                    if (!(file.EndsWith(extention))) throw new System.Exception("Неверно выбрано раcширение файла!");                    
+
+                }
+                catch (System.IO.DirectoryNotFoundException e)
+                {
+                    Console.WriteLine(e.Message);
+                    file = null;
+                    continue;
+                }
+
+                catch (System.Exception)
+                {
+                    file += extention;                  
+                }
+            }
+
+            return file;
+        }
+
+        /// <summary>
+        /// Получение имени (каталога) входного файла
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="extention"></param>
+        /// <returns></returns>
+        public string GetInputFileName(string message, string extention)
+        {
+            string fileName = null;
+
+            while (fileName == null)
+            {
+                Console.Write(message);   //Сообщение, которое выводится при запросе имени файла
+                fileName = Console.ReadLine(); //Имя файла
+
+                if (!(fileName.EndsWith(extention)) || !(File.Exists(fileName)))
+                {
+                    fileName = null;
+                    Console.WriteLine("Ошибка: выбранный файл не существует или имеет неподходящее расширение!");
+                }
+                else
+                {
+                    FileInfo file = new FileInfo(fileName);
+                    if (file.Length > sizeRestriction)
+                    {
+                        fileName = null;
+                        Console.WriteLine("Ошибка: размер файла слишком велик!");
+                    }
+                }
+            }
+            return fileName;   
+        }
+    }
+
+    /// <summary>
+    /// Класс-заглушка, используется для тестов
+    /// </summary>
+    public class MockFileName : IFileName
+    {
+        static string file;
+        public MockFileName(string TestFileName) {
+            file = TestFileName;   
+        }
+        public string GetFileName(string message, string extention)
+        {
+            Console.Write(message);   //Сообщение, которое выводится при запросе имени файла
+            try
+            {                
+                if (!(file.EndsWith(extention))) throw new System.Exception("Неверно выбрано раcширение файла!");
+            }
+            // catch (System.IO.DirectoryNotFoundException)
+            //{
+
+           // }
+
+            catch (System.Exception)
+            {
+                file += extention;
+                //Console.WriteLine(e.Message);                    
+            }
+
+            return file;
+        }
+    } 
+
    public class Program
     { const uint N=100;  ///максимальное количество строк в выходном файле
       static char[] separator = {' ', ',', '.', ':', ';', '!', '?' }; //символы-разделители, которые необходимо учитывать при обработке текста
         static void Main(string[] args)
       {
           Stopwatch time = new Stopwatch();   //Измеряет время обработки
+          FileName fileName = new FileName(); //Объект для получения входных данных от пользователя
  
            string iFullFileName = null;  //Имя входного файла с текстом
            string InputFile = GetFileName("Входной файл: ", iFullFileName, ".txt", size:2000000);                 
@@ -24,8 +169,8 @@ namespace ConsoleApplication1
            string dFullFileName = null;  //Имя существующего файла-словаря
            string DictionaryFile = GetFileName("Файл словаря: ", dFullFileName, ".txt", strings_count: 100000);          
 
-           string oFullFileName = null;  //Имя выходного html-файла
-           string OutputFile = GetFileName("Выходной файл: ", oFullFileName, ".html");
+           //string oFullFileName = null;  //Имя выходного html-файла
+           string OutputFile = fileName.GetFileName("Выходной файл: ", ".html");
 
            Console.WriteLine();
 
@@ -39,8 +184,9 @@ namespace ConsoleApplication1
            Console.Write("Всё! Для продолжения нажмите <Enter>");
            Console.ReadLine();
 
-
         }
+
+        
 
         /// <summary>
         /// Получение от пользователя имени файла
@@ -50,21 +196,29 @@ namespace ConsoleApplication1
         /// <param name="extention"></param>
         /// <returns></returns>
 
-        public static string GetFileName(string message, string var, string extention)
+      /*  public static string GetFileName(string message, string extention)
         {
-            while (var == null)
-            {
+            string file = null;
+           
                 Console.Write(message);   //Сообщение, которое выводится при запросе имени файла
-                var = Console.ReadLine(); //Имя файла
-                
-                if (!(var.EndsWith(extention)))
+                try
                 {
-                    var = null;                    
-                    Console.WriteLine("Ошибка: выбранный файл не существует или имеет неподходящее расширение!");                   
+                    file = Console.ReadLine(); //Имя файла                   
+                    if (!(file.EndsWith(extention))) throw new System.Exception("Неверно выбрано раcширение файла!");
                 }
-            }
-            return var;
-        }
+               // catch (System.IO.DirectoryNotFoundException)
+                //{
+
+               // }
+
+                catch (System.Exception)
+                {
+                    file += extention;
+                    //Console.WriteLine(e.Message);                    
+                }          
+            
+            return file;
+        } */
 
         /// <summary>
         /// Перегрузка метода GetFileName, содержит проверку существования и размера входного файла
@@ -144,7 +298,9 @@ namespace ConsoleApplication1
             {                   
                 string input = null;  //Переменная для временного хранения считываемой строки
                 DictionaryFileLoading(DictionaryFileName);
-                StreamWriter OutputFile = new StreamWriter(OutputFileName);  //Поток вывода
+
+                StreamWriter OutputFile = new StreamWriter(OutputFileName);  //Поток вывода               
+
                 string output = null;  //Переменная для временного хранения обработанной строки
                 int n = 0;        //счётчик количества строк в полученном файле
                 int i = 0;        //счётчик создающихся выходных файлов

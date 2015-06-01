@@ -1,15 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--This file represents the results of running a test suite-->
-<test-results name="D:\FILES\Documents\УЧЁБА\СимбирСофт\C#\Homework\Application\ProgramTests\bin\Debug\ProgramTests.dll" total="1" errors="0" failures="0" not-run="0" inconclusive="0" ignored="0" skipped="0" invalid="0" date="2015-05-27" time="15:05:05">
+<test-results name="D:\FILES\Documents\УЧЁБА\СимбирСофт\C#\Homework\Application\ProgramTests\bin\Debug\ProgramTests.dll" total="3" errors="0" failures="0" not-run="0" inconclusive="0" ignored="0" skipped="0" invalid="0" date="2015-06-01" time="18:15:01">
   <environment nunit-version="2.6.4.14350" clr-version="2.0.50727.4927" os-version="Microsoft Windows NT 6.1.7600.0" platform="Win32NT" cwd="D:\FILES\Documents\УЧЁБА\СимбирСофт\C#\Homework\Application\ProgramTests\bin\Debug" machine-name="АНДРЕЙ-ПК" user="Андрей" user-domain="Андрей-ПК" />
   <culture-info current-culture="ru-RU" current-uiculture="ru-RU" />
-  <test-suite type="Assembly" name="D:\FILES\Documents\УЧЁБА\СимбирСофт\C#\Homework\Application\ProgramTests\bin\Debug\ProgramTests.dll" executed="True" result="Success" success="True" time="0.006" asserts="0">
+  <test-suite type="Assembly" name="D:\FILES\Documents\УЧЁБА\СимбирСофт\C#\Homework\Application\ProgramTests\bin\Debug\ProgramTests.dll" executed="True" result="Success" success="True" time="0.077" asserts="0">
     <results>
-      <test-suite type="Namespace" name="ProgramTests" executed="True" result="Success" success="True" time="0.003" asserts="0">
+      <test-suite type="Namespace" name="ProgramTests" executed="True" result="Success" success="True" time="0.067" asserts="0">
         <results>
-          <test-suite type="TestFixture" name="Class1" executed="True" result="Success" success="True" time="0.003" asserts="0">
+          <test-suite type="TestFixture" name="Class1" executed="True" result="Success" success="True" time="0.063" asserts="0">
             <results>
-              <test-case name="ProgramTests.Class1.Test1" executed="True" result="Success" success="True" time="0.000" asserts="1" />
+              <test-case name="ProgramTests.Class1.GetFileName_DirectoryNotFound" executed="True" result="Success" success="True" time="0.031" asserts="0" />
+              <test-case name="ProgramTests.Class1.GetFileName_FullName_Output" executed="True" result="Success" success="True" time="0.011" asserts="1" />
+              <test-case name="ProgramTests.Class1.GetFileName_ShortName_OutputFormat" executed="True" result="Success" success="True" time="0.003" asserts="3" />
             </results>
           </test-suite>
         </results>
